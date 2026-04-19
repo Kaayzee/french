@@ -140,7 +140,7 @@ export default function App() {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid main">
 
       {/* FILES */}
       <div className="text-center my-3">
