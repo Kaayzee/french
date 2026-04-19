@@ -1,0 +1,29 @@
+.table-container {
+  margin-top: 20px;
+}
+
+/* make table scroll instead of expanding page */
+.table-wrapper {
+  max-height: 70vh;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+/* sticky header */
+table thead th {
+  position: sticky;
+  top: 0;
+  background: #212529;
+  color: white;
+  z-index: 2;
+}
+
+/* row styling */
+table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* score header */
+.score-title {
+  margin-bottom: 15px;
+}

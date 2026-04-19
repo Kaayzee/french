@@ -1,2 +1,2 @@
-# french
+# French
 Learning French 🥖
