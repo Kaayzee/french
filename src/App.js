@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import FlashCard from "./components/FlashCard";
 import InputBox from "./components/InputBox";
 import ScoreBoard from "./components/ScoreBoard";
-import useFlashcards from "./hooks/useFlashcards";
+import useFlashcards from "./hooks/useFlashCards";
 import "./styles/App.css";
 
 export default function App() {
   const files = [
-    { name: "Escalade 1", file: "data/escalade1.csv" },
-    { name: "Escalade 2", file: "data/escalade2.csv" }
+    { name: "Escalade 1", file: "french/escalade1.csv" },
+    { name: "Escalade 2", file: "french/escalade2.csv" }
   ];
 
-  const [selectedFile, setSelectedFile] = useState("data/escalade1.csv");
+  const [selectedFile, setSelectedFile] = useState("french/escalade1.csv");
   const { cards } = useFlashcards(selectedFile);
 
   const [wordLimit, setWordLimit] = useState(25);
@@ -231,9 +231,11 @@ export default function App() {
                 ✔️ End
               </button>
 
+              {/*
               <button className="btn btn-info" onClick={() => speak(deck[current].fr)}>
                 🔊 Play
               </button>
+              */}
             </div>
 
           </div>

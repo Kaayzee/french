@@ -8,9 +8,17 @@ export default function useFlashcards(file) {
     if (!file) return;
 
     fetch(`/${file}`)
-      .then(res => res.text())
-      .then(text => setCards(parseCSV(text)))
-      .catch(err => console.error(err));
+      .then((res) => {
+        if (!res.ok) throw new Error("CSV not found");
+        return res.text();
+      })
+      .then((text) => {
+        setCards(parseCSV(text));
+      })
+      .catch((err) => {
+        console.error("CSV load error:", err);
+        setCards([]);
+      });
   }, [file]);
 
   return { cards };
