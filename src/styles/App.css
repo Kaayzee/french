@@ -1,15 +1,14 @@
+body{
+  background-color: rgb(203, 225, 247);
+}
 .app {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  gap: 20px;
   font-family: system-ui, sans-serif;
 }
-.main{
-    background-color: rgb(228, 242, 255);
-}
+
 /* GRID */
 .game-grid {
   display: grid;
@@ -32,13 +31,11 @@
   align-items: stretch; /* IMPORTANT FIX */
   justify-content: center;
 
-  gap: 16px;
 }
 
 /* NAV */
 .nav {
   display: flex;
-  gap: 10px;
 }
 
 .nav button,
@@ -58,13 +55,11 @@
 /* BUTTON ROW */
 .button-row {
   display: flex;
-  gap: 10px;
 }
 
 /* WORD LIMIT */
 .word-limit {
   display: flex;
-  gap: 10px;
   align-items: center;
 }
 

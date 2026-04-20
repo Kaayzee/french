@@ -1,8 +1,13 @@
 import "../styles/InputBox.css";
 
-export default function InputBox({ input, setInput, onSubmit, disabled }) {
+export default function InputBox({
+  input,
+  setInput,
+  onSubmit,
+  disabled
+}) {
   return (
-    <div className="mt-3 input-box">
+    <div className="mt-3 input-box d-flex gap-2">
       <input
         className="form-control"
         value={input}
@@ -12,6 +17,14 @@ export default function InputBox({ input, setInput, onSubmit, disabled }) {
         autoFocus
         onKeyDown={(e) => e.key === "Enter" && onSubmit()}
       />
+
+      <button
+        className="btn btn-primary"
+        onClick={onSubmit}
+        disabled={disabled}
+      >
+        🎯 Submit
+      </button>
     </div>
   );
 }

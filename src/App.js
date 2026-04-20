@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import FlashCard from "./components/FlashCard";
 import InputBox from "./components/InputBox";
 import ScoreBoard from "./components/ScoreBoard";
-import useFlashcards from "./hooks/useFlashCards";
 import "./styles/App.css";
 
-export default function App() {
-  const files = [
-    { name: "Escalade 1", file: "french/escalade1.csv" },
-    { name: "Escalade 2", file: "french/escalade2.csv" }
-  ];
+// 📚 Books (from /public/data)
+const books = {
+  "Escalade 1": "french/escalade1.json",
+  "Escalade 2": "french/escalade2.json"
+};
 
-  const [selectedFile, setSelectedFile] = useState("french/escalade1.csv");
-  const { cards } = useFlashcards(selectedFile);
+export default function App() {
+
+
+
+  const [selectedBook, setSelectedBook] = useState("Escalade 1");
+  const [selectedChapter, setSelectedChapter] = useState("");
+  const [bookData, setBookData] = useState({});
 
   const [wordLimit, setWordLimit] = useState(25);
   const [page, setPage] = useState("game");
@@ -38,7 +42,7 @@ export default function App() {
     window.speechSynthesis.speak(u);
   };
 
-  // shuffle
+  // 🔄 shuffle
   const shuffleArray = (arr) => {
     const a = [...arr];
     for (let i = a.length - 1; i > 0; i--) {
@@ -48,8 +52,29 @@ export default function App() {
     return a;
   };
 
-  // load deck
+
+  // 📥 load book JSON
   useEffect(() => {
+    const loadBook = async () => {
+      const res = await fetch(books[selectedBook]);
+      const data = await res.json();
+
+      setBookData(data);
+
+      const firstChapter = Object.keys(data)[0] || "";
+      setSelectedChapter(firstChapter);
+    };
+
+    loadBook();
+  }, [selectedBook]);
+
+  const isLoading =
+    Object.keys(bookData).length === 0 || !selectedChapter;
+
+  // 🎯 build deck
+  useEffect(() => {
+    const cards = bookData?.[selectedChapter] || [];
+
     if (!cards.length) return;
 
     const limited = wordLimit ? cards.slice(0, wordLimit) : cards;
@@ -62,14 +87,18 @@ export default function App() {
     setFeedback("");
     setInput("");
     setFlipped(false);
-  }, [cards, wordLimit]);
+  }, [bookData, selectedChapter, wordLimit]);
 
   const progress = deck.length
     ? Math.round((history.length / deck.length) * 100)
     : 0;
 
-  if (!deck.length) return <div>Loading...</div>;
+  const currentCard = deck?.[current];
 
+  // 🚨 loading guard
+  if (isLoading) return <div>Loading...</div>;
+
+  // ▶️ next card
   const nextCard = () => {
     setFlipped(false);
 
@@ -83,10 +112,11 @@ export default function App() {
     setInput("");
   };
 
+  // ✅ submit answer
   const handleSubmit = () => {
-    if (finished) return;
+    if (finished || !currentCard) return;
 
-    const correct = deck[current].en.toLowerCase().trim();
+    const correct = currentCard.en.toLowerCase().trim();
     const answer = input.toLowerCase().trim();
     const isCorrect = answer === correct;
 
@@ -95,7 +125,7 @@ export default function App() {
     setHistory(prev => [
       ...prev,
       {
-        ...deck[current],
+        ...currentCard,
         userAnswer: input,
         isCorrect,
         skipped: false
@@ -112,21 +142,44 @@ export default function App() {
   };
 
   const handleKnowThis = () => {
-    if (finished) return;
+    if (finished || !currentCard) return;
 
     setSwipe("right");
 
     setHistory(prev => [
       ...prev,
       {
-        ...deck[current],
+        ...currentCard,
         userAnswer: "—",
         isCorrect: true,
-        skipped: true
+        skipped: "know"
       }
     ]);
 
     setFeedback("🎉 Known!");
+
+    setTimeout(() => {
+      setSwipe(null);
+      nextCard();
+    }, 300);
+  };
+
+  const handleDontKnow = () => {
+    if (finished || !currentCard) return;
+
+    setSwipe("left");
+
+    setHistory(prev => [
+      ...prev,
+      {
+        ...currentCard,
+        userAnswer: "—",
+        isCorrect: false,
+        skipped: "dontKnow"
+      }
+    ]);
+
+    setFeedback("🤷 Don't know");
 
     setTimeout(() => {
       setSwipe(null);
@@ -140,31 +193,42 @@ export default function App() {
   };
 
   return (
-    <div className="container-fluid main">
+    <div className="container-fluid p-0">
 
-      {/* FILES */}
-      <div className="text-center my-3">
-        {files.map(f => (
-          <button
-            key={f.file}
-            onClick={() => setSelectedFile(f.file)}
-            className={`btn btn-sm mx-1 ${
-              selectedFile === f.file ? "btn-success" : "btn-outline-secondary"
-            }`}
-          >
-            {f.name}
-          </button>
-        ))}
+      {/* 📚 SELECTORS */}
+      <div className="text-center my-3 d-flex justify-content-center gap-2 flex-wrap">
 
-        <button className="btn btn-primary btn-sm mx-1" onClick={() => setPage("game")}>
+        <select
+          className="form-select w-auto"
+          value={selectedBook}
+          onChange={(e) => setSelectedBook(e.target.value)}
+        >
+          {Object.keys(books).map(book => (
+            <option key={book}>{book}</option>
+          ))}
+        </select>
+
+        <select
+          className="form-select w-auto"
+          value={selectedChapter}
+          onChange={(e) => setSelectedChapter(e.target.value)}
+        >
+          {Object.keys(bookData).map(ch => (
+            <option key={ch}>{ch}</option>
+          ))}
+        </select>
+
+        <button className="btn btn-primary btn-sm" onClick={() => setPage("game")}>
           Game
         </button>
 
-        <button className="btn btn-secondary btn-sm mx-1" onClick={() => setPage("score")}>
+        <button className="btn btn-secondary btn-sm" onClick={() => setPage("score")}>
           Score
         </button>
+
       </div>
 
+      {/* 🎮 GAME */}
       {page === "game" && (
         <div className="row min-vh-100">
 
@@ -202,12 +266,14 @@ export default function App() {
             </div>
 
             {/* CARD */}
-            <FlashCard
-              card={deck[current]}
-              flipped={flipped}
-              swipe={swipe}
-              onFlip={() => setFlipped(v => !v)}
-            />
+            {currentCard && (
+              <FlashCard
+                card={currentCard}
+                flipped={flipped}
+                swipe={swipe}
+                onFlip={() => setFlipped(v => !v)}
+              />
+            )}
 
             {/* INPUT */}
             <InputBox
@@ -217,25 +283,21 @@ export default function App() {
               disabled={finished}
             />
 
-            {/* BUTTONS */}
+            {/* ACTIONS */}
             <div className="d-flex gap-2 mt-3 justify-content-center flex-wrap">
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                🎯 Submit
-              </button>
 
               <button className="btn btn-success" onClick={handleKnowThis}>
-                👍 Know
+                Know
+              </button>
+
+              <button className="btn btn-warning" onClick={handleDontKnow}>
+                Don’t know
               </button>
 
               <button className="btn btn-danger" onClick={endGame}>
-                ✔️ End
+                End
               </button>
 
-              {/*
-              <button className="btn btn-info" onClick={() => speak(deck[current].fr)}>
-                🔊 Play
-              </button>
-              */}
             </div>
 
           </div>
@@ -245,6 +307,7 @@ export default function App() {
         </div>
       )}
 
+      {/* 🏁 SCORE */}
       {page === "score" && (
         <ScoreBoard score={score} history={history} />
       )}
