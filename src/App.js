@@ -6,8 +6,8 @@ import "./styles/App.css";
 
 // 📚 Books (from /public/data)
 const books = {
-  "Escalade 1": "/escalade1.json",
-  "Escalade 2": "/escalade2.json"
+  "Escalade 1": "/french/escalade1.json",
+  "Escalade 2": "/french/escalade2.json"
 };
 
 export default function App() {
