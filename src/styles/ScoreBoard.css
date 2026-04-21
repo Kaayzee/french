@@ -27,3 +27,31 @@
 .score-title {
   margin-bottom: 15px;
 }
+
+/* =========================
+   RESPONSIVE TABLE FONT
+   ========================= */
+
+/* default (desktop/tablet) */
+.table-wrapper table {
+  font-size: 14px;
+}
+
+/* mobile optimization */
+@media (max-width: 576px) {
+  .table-wrapper table {
+    font-size: 10.5px; /* 👈 target 10–11px */
+  }
+
+  .table-wrapper thead th,
+  .table-wrapper tbody td {
+    padding: 6px 6px; /* reduce padding to fit more columns */
+  }
+}
+
+/* slightly larger phones/tablets */
+@media (min-width: 577px) and (max-width: 768px) {
+  .table-wrapper table {
+    font-size: 12px;
+  }
+}

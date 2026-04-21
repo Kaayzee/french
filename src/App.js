@@ -4,15 +4,13 @@ import InputBox from "./components/InputBox";
 import ScoreBoard from "./components/ScoreBoard";
 import "./styles/App.css";
 
-// 📚 Books (from /public/data)
+// 📚 Books (from /public)
 const books = {
   "Escalade 1": "/french/escalade1.json",
   "Escalade 2": "/french/escalade2.json"
 };
 
 export default function App() {
-
-
 
   const [selectedBook, setSelectedBook] = useState("Escalade 1");
   const [selectedChapter, setSelectedChapter] = useState("");
@@ -52,10 +50,9 @@ export default function App() {
     return a;
   };
 
-
-  // 📥 load book JSON
+  // 📥 load book
   useEffect(() => {
-    const loadBook = async () => {
+    const load = async () => {
       const res = await fetch(books[selectedBook]);
       const data = await res.json();
 
@@ -65,16 +62,13 @@ export default function App() {
       setSelectedChapter(firstChapter);
     };
 
-    loadBook();
+    load();
   }, [selectedBook]);
 
-  const isLoading =
-    Object.keys(bookData).length === 0 || !selectedChapter;
+  const cards = bookData?.[selectedChapter] || [];
 
   // 🎯 build deck
   useEffect(() => {
-    const cards = bookData?.[selectedChapter] || [];
-
     if (!cards.length) return;
 
     const limited = wordLimit ? cards.slice(0, wordLimit) : cards;
@@ -89,16 +83,16 @@ export default function App() {
     setFlipped(false);
   }, [bookData, selectedChapter, wordLimit]);
 
+  const currentCard = deck[current];
+
   const progress = deck.length
     ? Math.round((history.length / deck.length) * 100)
     : 0;
 
-  const currentCard = deck?.[current];
+  if (!bookData || Object.keys(bookData).length === 0) {
+    return <div>Loading...</div>;
+  }
 
-  // 🚨 loading guard
-  if (isLoading) return <div>Loading...</div>;
-
-  // ▶️ next card
   const nextCard = () => {
     setFlipped(false);
 
@@ -112,7 +106,6 @@ export default function App() {
     setInput("");
   };
 
-  // ✅ submit answer
   const handleSubmit = () => {
     if (finished || !currentCard) return;
 
@@ -132,7 +125,7 @@ export default function App() {
       }
     ]);
 
-    setFeedback(isCorrect ? "✅ Correct!" : "❌ Wrong!");
+    setFeedback(isCorrect ? "Correct" : "Wrong");
     if (isCorrect) setScore(s => s + 1);
 
     setTimeout(() => {
@@ -156,7 +149,7 @@ export default function App() {
       }
     ]);
 
-    setFeedback("🎉 Known!");
+    setFeedback("Known");
 
     setTimeout(() => {
       setSwipe(null);
@@ -179,7 +172,7 @@ export default function App() {
       }
     ]);
 
-    setFeedback("🤷 Don't know");
+    setFeedback("Don't know");
 
     setTimeout(() => {
       setSwipe(null);
@@ -193,31 +186,60 @@ export default function App() {
   };
 
   return (
-    <div className="container-fluid p-0">
+    <div className="container-fluid">
 
-      {/* 📚 SELECTORS */}
+      {/* 📚 TOP BAR */}
       <div className="text-center my-3 d-flex justify-content-center gap-2 flex-wrap">
 
-        <select
-          className="form-select w-auto"
-          value={selectedBook}
-          onChange={(e) => setSelectedBook(e.target.value)}
-        >
-          {Object.keys(books).map(book => (
-            <option key={book}>{book}</option>
-          ))}
-        </select>
+        {/* BOOK */}
+        <div className="dropdown">
+          <button
+            className="btn btn-outline-primary dropdown-toggle"
+            data-bs-toggle="dropdown"
+            type="button"
+          >
+            {selectedBook}
+          </button>
 
-        <select
-          className="form-select w-auto"
-          value={selectedChapter}
-          onChange={(e) => setSelectedChapter(e.target.value)}
-        >
-          {Object.keys(bookData).map(ch => (
-            <option key={ch}>{ch}</option>
-          ))}
-        </select>
+          <ul className="dropdown-menu scroll-dropdown">
+            {Object.keys(books).map(book => (
+              <li key={book}>
+                <button
+                  className="dropdown-item"
+                  onClick={() => setSelectedBook(book)}
+                >
+                  {book}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
 
+        {/* CHAPTER */}
+        <div className="dropdown">
+          <button
+            className="btn btn-outline-secondary dropdown-toggle"
+            data-bs-toggle="dropdown"
+            type="button"
+          >
+            {selectedChapter || "Chapter"}
+          </button>
+
+          <ul className="dropdown-menu scroll-dropdown">
+            {Object.keys(bookData).map(ch => (
+              <li key={ch}>
+                <button
+                  className="dropdown-item"
+                  onClick={() => setSelectedChapter(ch)}
+                >
+                  {ch}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* NAV */}
         <button className="btn btn-primary btn-sm" onClick={() => setPage("game")}>
           Game
         </button>
@@ -237,13 +259,12 @@ export default function App() {
           <div className="col-12 col-md-6 text-center">
 
             <div className="mb-2">
-              <label>Words:</label>
               <input
                 type="number"
                 className="form-control"
-                min="1"
-                max="100"
                 value={wordLimit}
+                min="1"
+                max="200"
                 onChange={(e) => setWordLimit(Number(e.target.value))}
               />
             </div>
@@ -259,9 +280,7 @@ export default function App() {
                 <div
                   className="progress-bar"
                   style={{ width: `${progress}%` }}
-                >
-                  {progress}%
-                </div>
+                />
               </div>
             </div>
 

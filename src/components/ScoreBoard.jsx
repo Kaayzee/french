@@ -4,7 +4,7 @@ export default function ScoreBoard({ score, history }) {
   return (
     <div className="container mt-4">
 
-      <h2 className="score-title">Score: {score}</h2>
+      <h3 className="score-title">Score: {score}</h3>
 
       <div className="table-wrapper">
         <table className="table table-hover table-striped">
