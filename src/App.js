@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import FlashCard from "./components/FlashCard";
 import InputBox from "./components/InputBox";
 import ScoreBoard from "./components/ScoreBoard";
+import NavBar from "./components/NavBar";
+import ReactCountryFlag from "react-country-flag";
 import "./styles/App.css";
 
 // 📚 Books (from /public)
@@ -23,6 +25,9 @@ export default function App() {
   const [current, setCurrent] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [swipe, setSwipe] = useState(null);
+
+  const [direction, setDirection] = useState("fr-en"); // or "en-fr"
+  const isFrToEn = direction === "fr-en";
 
   const [input, setInput] = useState("");
   const [score, setScore] = useState(0);
@@ -109,7 +114,10 @@ export default function App() {
   const handleSubmit = () => {
     if (finished || !currentCard) return;
 
-    const correct = currentCard.en.toLowerCase().trim();
+    const correct = (
+      direction === "fr-en" ? currentCard.en : currentCard.fr
+    ).toLowerCase().trim();
+
     const answer = input.toLowerCase().trim();
     const isCorrect = answer === correct;
 
@@ -119,6 +127,7 @@ export default function App() {
       ...prev,
       {
         ...currentCard,
+        direction, // 👈 add this
         userAnswer: input,
         isCorrect,
         skipped: false
@@ -143,6 +152,7 @@ export default function App() {
       ...prev,
       {
         ...currentCard,
+        direction, // 👈 add this
         userAnswer: "—",
         isCorrect: true,
         skipped: "know"
@@ -166,6 +176,7 @@ export default function App() {
       ...prev,
       {
         ...currentCard,
+        direction, // 👈 add this
         userAnswer: "—",
         isCorrect: false,
         skipped: "dontKnow"
@@ -188,71 +199,22 @@ export default function App() {
   return (
     <div className="container-fluid">
 
-      {/* 📚 TOP BAR */}
-      <div className="text-center my-3 d-flex justify-content-center gap-2 flex-wrap">
-
-        {/* BOOK */}
-        <div className="dropdown">
-          <button
-            className="btn btn-outline-primary dropdown-toggle"
-            data-bs-toggle="dropdown"
-            type="button"
-          >
-            {selectedBook}
-          </button>
-
-          <ul className="dropdown-menu scroll-dropdown">
-            {Object.keys(books).map(book => (
-              <li key={book}>
-                <button
-                  className="dropdown-item"
-                  onClick={() => setSelectedBook(book)}
-                >
-                  {book}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* CHAPTER */}
-        <div className="dropdown">
-          <button
-            className="btn btn-outline-secondary dropdown-toggle"
-            data-bs-toggle="dropdown"
-            type="button"
-          >
-            {selectedChapter || "Chapter"}
-          </button>
-
-          <ul className="dropdown-menu scroll-dropdown">
-            {Object.keys(bookData).map(ch => (
-              <li key={ch}>
-                <button
-                  className="dropdown-item"
-                  onClick={() => setSelectedChapter(ch)}
-                >
-                  {ch}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* NAV */}
-        <button className="btn btn-primary btn-sm" onClick={() => setPage("game")}>
-          Game
-        </button>
-
-        <button className="btn btn-secondary btn-sm" onClick={() => setPage("score")}>
-          Score
-        </button>
-
-      </div>
+      <NavBar
+        books={books}
+        selectedBook={selectedBook}
+        setSelectedBook={setSelectedBook}
+        bookData={bookData}
+        selectedChapter={selectedChapter}
+        setSelectedChapter={setSelectedChapter}
+        direction={direction}
+        setDirection={setDirection}
+        page={page}
+        setPage={setPage}
+      />
 
       {/* 🎮 GAME */}
       {page === "game" && (
-        <div className="row min-vh-100">
+        <div className="row min-vh-100 mt-3">
 
           <div className="col-12 col-md-3" />
 
@@ -290,6 +252,7 @@ export default function App() {
                 card={currentCard}
                 flipped={flipped}
                 swipe={swipe}
+                direction={direction}
                 onFlip={() => setFlipped(v => !v)}
               />
             )}
@@ -306,15 +269,15 @@ export default function App() {
             <div className="d-flex gap-2 mt-3 justify-content-center flex-wrap">
 
               <button className="btn btn-success" onClick={handleKnowThis}>
-                Know
+                👍Know
               </button>
 
               <button className="btn btn-warning" onClick={handleDontKnow}>
-                Don’t know
+                👎Don’t know
               </button>
 
               <button className="btn btn-danger" onClick={endGame}>
-                End
+                ❌End
               </button>
 
             </div>

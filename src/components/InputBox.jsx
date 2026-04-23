@@ -23,7 +23,7 @@ export default function InputBox({
         onClick={onSubmit}
         disabled={disabled}
       >
-        🎯 Submit
+        Submit
       </button>
     </div>
   );

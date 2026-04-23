@@ -23,8 +23,14 @@ export default function ScoreBoard({ score, history }) {
             {history.map((item, i) => (
               <tr key={i}>
                 <th>{i + 1}</th>
-                <td>{item.fr}</td>
-                <td>{item.en}</td>
+                <td>
+                  {item.direction === "fr-en" ? item.fr : item.en}
+                </td>
+
+                <td>
+                  {item.direction === "fr-en" ? item.en : item.fr}
+                </td>
+
                 <td>{item.userAnswer}</td>
                 <td>
                   {item.skipped === "know" ? (
