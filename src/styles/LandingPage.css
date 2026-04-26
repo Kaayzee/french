@@ -1,0 +1,76 @@
+.landing-page {
+    width: min(960px, 100%);
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.landing-page__hero {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.landing-page__eyebrow {
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.landing-page__hero h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.landing-page__intro {
+    max-width: 620px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.landing-page__cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.landing-choice-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 220px;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 18px;
+    background: #fff;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+    .landing-choice-card:hover {
+        transform: translateY(-3px);
+        border-color: #0d6efd;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+.landing-choice-card__icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.landing-choice-card__title {
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.landing-choice-card__description {
+    line-height: 1.5;
+}
+
+@media (max-width: 700px) {
+    .landing-page__cards {
+        grid-template-columns: 1fr;
+    }
+}
