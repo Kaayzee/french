@@ -17,3 +17,5 @@ https://nodejs.org/en/download/
 ## Run the project
 npm install 
 npm start
+
+## Run the tests
