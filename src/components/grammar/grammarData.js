@@ -11,7 +11,7 @@ export function getGrammarDataPath(settings) {
     return null;
   }
 
-  return "/grammar/a1/er/present.json";
+  return "/french/grammar/a1/er/present.json";
 }
 
 export function buildGrammarExercises(grammarData, direction = "fr-en") {
