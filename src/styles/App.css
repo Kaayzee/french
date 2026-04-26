@@ -1,130 +1,24 @@
-html, body {
-  overflow-x: hidden; /* prevents iPhone horizontal scroll */
+html,
+body {
+    overflow-x: hidden;
 }
 
 body {
-  background-color: rgb(203, 225, 247);
-  margin: 0;
-  padding: 0 8px;
-  box-sizing: border-box;
-  /* 🔒 prevents accidental horizontal scroll */
-  overflow-x: hidden;
+    margin: 0;
+    padding: 0 8px;
+    box-sizing: border-box;
+    background-color: rgb(203, 225, 247);
+    font-family: system-ui, sans-serif;
 }
 
-/* GLOBAL WRAPPER SAFETY */
-.app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: system-ui, sans-serif;
-
-  /* ✅ small safe padding for phones */
-  padding-left: 8px;
-  padding-right: 8px;
-
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-/* GRID */
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-
-  width: 100%;
-  max-width: 100vw;
-
-  height: 100%;
-  align-items: center;
-
-  /* 🔒 prevents overflow from fractional columns */
-  box-sizing: border-box;
-}
-
-.side-col {
-  grid-column: span 3;
-}
-
-.center-col {
-  grid-column: span 6;
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: stretch;
-  justify-content: center;
-
-  /* 🔒 ensures it cannot exceed viewport */
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-/* NAV */
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px; /* ✅ prevents tight overflow on small screens */
-}
-
-.nav button,
-.file-selector button {
-  padding: 8px 12px;
-  border-radius: 8px;
-  background: #e5e7eb;
-  border: 1px solid #d1d5db;
-  cursor: pointer;
-}
-
-/* FILE SELECTOR ACTIVE */
-.file-selector .active {
-  background: #4caf50;
-  color: white;
-}
-
-/* BUTTON ROW */
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-/* WORD LIMIT */
-.word-limit {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* DROPDOWN */
-.scroll-dropdown {
-  max-height: 220px;
-  overflow-y: auto;
-
-  min-width: 140px;
-  max-width: 90vw; /* ✅ prevents overflow on iPhone */
-  box-sizing: border-box;
-}
-
-/* dropdown item text safety */
-.scroll-dropdown .dropdown-item {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ✅ MOBILE SAFETY LAYER (important) */
-@media (max-width: 600px) {
-  .game-grid {
-    grid-template-columns: 1fr; /* stack instead of squeeze */
-  }
-
-  .side-col,
-  .center-col {
-    grid-column: span 12;
-  }
-
-  .app {
-    padding-left: 6px;
-    padding-right: 6px;
-  }
+.app-shell {
+    min-height: 100vh;
+    padding-left: 0;
+    padding-right: 0;
 }
