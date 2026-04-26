@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "level": "A1",
+    "verbGroup": "er",
+    "tense": "present",
+    "title": "A1 -er verbs in the present tense"
+  },
+  "verbs": [
+    {
+      "id": "parler",
+      "infinitive": "parler",
+      "english": "to speak",
+      "forms": [
+        {
+          "person": "je",
+          "conjugation": "parle",
+          "frSentence": "Je parle français.",
+          "frBlank": "Je ____ français.",
+          "enSentence": "I speak French."
+        },
+        {
+          "person": "tu",
+          "conjugation": "parles",
+          "frSentence": "Tu parles anglais.",
+          "frBlank": "Tu ____ anglais.",
+          "enSentence": "You speak English."
+        },
+        {
+          "person": "il",
+          "conjugation": "parle",
+          "frSentence": "Il parle avec son ami.",
+          "frBlank": "Il ____ avec son ami.",
+          "enSentence": "He speaks with his friend."
+        },
+        {
+          "person": "nous",
+          "conjugation": "parlons",
+          "frSentence": "Nous parlons en classe.",
+          "frBlank": "Nous ____ en classe.",
+          "enSentence": "We speak in class."
+        },
+        {
+          "person": "vous",
+          "conjugation": "parlez",
+          "frSentence": "Vous parlez très bien.",
+          "frBlank": "Vous ____ très bien.",
+          "enSentence": "You speak very well."
+        },
+        {
+          "person": "ils",
+          "conjugation": "parlent",
+          "frSentence": "Ils parlent souvent.",
+          "frBlank": "Ils ____ souvent.",
+          "enSentence": "They speak often."
+        }
+      ]
+    },
+    {
+      "id": "aimer",
+      "infinitive": "aimer",
+      "english": "to like / to love",
+      "forms": [
+        {
+          "person": "je",
+          "conjugation": "aime",
+          "frSentence": "J'aime le chocolat.",
+          "frBlank": "J'____ le chocolat.",
+          "enSentence": "I like chocolate."
+        },
+        {
+          "person": "tu",
+          "conjugation": "aimes",
+          "frSentence": "Tu aimes la musique.",
+          "frBlank": "Tu ____ la musique.",
+          "enSentence": "You like music."
+        },
+        {
+          "person": "elle",
+          "conjugation": "aime",
+          "frSentence": "Elle aime le sport.",
+          "frBlank": "Elle ____ le sport.",
+          "enSentence": "She likes sport."
+        },
+        {
+          "person": "nous",
+          "conjugation": "aimons",
+          "frSentence": "Nous aimons Paris.",
+          "frBlank": "Nous ____ Paris.",
+          "enSentence": "We like Paris."
+        },
+        {
+          "person": "vous",
+          "conjugation": "aimez",
+          "frSentence": "Vous aimez ce livre.",
+          "frBlank": "Vous ____ ce livre.",
+          "enSentence": "You like this book."
+        },
+        {
+          "person": "elles",
+          "conjugation": "aiment",
+          "frSentence": "Elles aiment danser.",
+          "frBlank": "Elles ____ danser.",
+          "enSentence": "They like dancing."
+        }
+      ]
+    },
+    {
+      "id": "regarder",
+      "infinitive": "regarder",
+      "english": "to watch / to look at",
+      "forms": [
+        {
+          "person": "je",
+          "conjugation": "regarde",
+          "frSentence": "Je regarde la télé.",
+          "frBlank": "Je ____ la télé.",
+          "enSentence": "I watch TV."
+        },
+        {
+          "person": "tu",
+          "conjugation": "regardes",
+          "frSentence": "Tu regardes le film.",
+          "frBlank": "Tu ____ le film.",
+          "enSentence": "You watch the film."
+        },
+        {
+          "person": "il",
+          "conjugation": "regarde",
+          "frSentence": "Il regarde une photo.",
+          "frBlank": "Il ____ une photo.",
+          "enSentence": "He looks at a photo."
+        },
+        {
+          "person": "nous",
+          "conjugation": "regardons",
+          "frSentence": "Nous regardons le match.",
+          "frBlank": "Nous ____ le match.",
+          "enSentence": "We watch the match."
+        },
+        {
+          "person": "vous",
+          "conjugation": "regardez",
+          "frSentence": "Vous regardez la carte.",
+          "frBlank": "Vous ____ la carte.",
+          "enSentence": "You look at the map."
+        },
+        {
+          "person": "ils",
+          "conjugation": "regardent",
+          "frSentence": "Ils regardent les oiseaux.",
+          "frBlank": "Ils ____ les oiseaux.",
+          "enSentence": "They look at the birds."
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import VocabularyGame from "./components/VocabularyGame";
-import GrammarSetup from "./components/GrammarSetup";
 import LandingPage from "./components/LandingPage";
+import GrammarSetup from "./components/grammar/GrammarSetup";
 
 import "./styles/App.css";
 
